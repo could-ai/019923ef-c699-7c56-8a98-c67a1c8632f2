@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
     return const Center(
       child: Text(
         'Settings Screen - App Preferences',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 24, fontWeigh: FontWeight.bold),
       ),
     );
   }
