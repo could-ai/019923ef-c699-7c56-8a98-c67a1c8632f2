@@ -171,7 +171,7 @@ class _GameScreenState extends State<GameScreen> {
         title: const Text('打飞机小游戏'),
         backgroundColor: Colors.pinkAccent,
       ),
-      backgroundColor: Colors.black, // Set background to black
+      backgroundColor: Colors.red, // Set background to red
       body: GestureDetector(
         onHorizontalDragUpdate: (details) {
           _movePlayer(details.delta.dx / context.size!.width * 0.5);
