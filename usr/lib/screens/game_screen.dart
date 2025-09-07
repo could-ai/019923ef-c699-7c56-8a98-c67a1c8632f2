@@ -1,6 +1,5 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'dart:math'; // Import math for random numbers
-import 'dart:async'; // Import async for Timer
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -10,248 +9,75 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  // Game variables
-  int score = 0;
   bool isGameOver = false;
   bool isGameStarted = false;
-  isGameOver++;
-  // Player variables
-  double playerX = 0.5; // Initial player position (center)
-  double playerBulletY = 1.0; // Initial bullet position (below screen)
   bool isShooting = false;
 
-  // Enemy variables
-  List<Map<String, dynamic>> enemies = [];
-  final int numberOfEnemies = 5;
-  final double enemySize = 50.0;
-  final double enemySpeed = 2.0;
-
-  // Game loop timer
-  Timer? _gameTimer--;
+  Timer? _gameTimer;
 
   @override
   void initState() {
     super.initState();
-    _initializeEnemies();
   }
 
   @override
   void dispose() {
-    _gameTimer?.cancel(); // Cancel the timer when the widget is disposed
+    _gameTimer?.cancel();
     super.dispose();
-  }
-
-  void _initializeEnemies() {
-    enemies.clear();
-    final random = Random();
-    for (int i = 0; i < numberOfEnemies; i++) {
-      enemies.add({
-        'x': random.nextDouble(), // Random horizontal position
-        'y': -random.nextDouble() * 5, // Start from above the screen
-        'alive': true,
-      });
-    }
   }
 
   void _startGame() {
     setState(() {
-      score = 0;
-      isGameOver = false;
       isGameStarted = true;
-      _initializeEnemies();
-      isShooting = false;
-      playerBulletY = 1.0;
-      print('Game started!');
+      isGameOver = false;
+      _gameTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        // Game logic here
+      });
     });
-    _startTimer();
   }
 
   void _endGame() {
     setState(() {
-      isGameOver = true;
       isGameStarted = false;
-      print('Game Over!');
-    });
-    _gameTimer?.cancel();
-  }
-
-  void _startTimer() {
-    _gameTimer?.cancel(); // Cancel any existing timer
-    _gameTimer = Timer.periodic(const Duration(milliseconds: 16), (timer) {
-      _updateGame();
-    });
-  }
-
-  void _movePlayer(double deltaX) {
-    setState(() {
-      playerX += deltaX;
-      if (playerX < 0.05) playerX = 0.05;
-      if (playerX > 0.95) playerX = 0.95;
+      isGameOver = true;
+      _gameTimer?.cancel();
     });
   }
 
   void _shoot() {
-    if (!isShooting && isGameStarted && !isGameOver) {
-      setState(() {
-        isShooting = true;
-        playerBulletY = 0.8; // Start bullet from player's position
-      });
-      Future.delayed(const Duration(milliseconds: 500), () {
-        // Only reset if the game is still running and the player is still shooting
-        if (mounted && isShooting) {
-          setState(() {
-            isShooting = false;
-            playerBulletY = 1.0; // Reset bullet position below screen
-          });
-        }
-      });
-    }
+    setState(() {
+      isShooting = true;
+      if (!isShooting && isGameStarted && !isGameOver) {
+        // Some shooting logic
+      }
+      isShooting = false;
+    });
   }
 
   void _updateGame() {
     if (!isGameStarted || isGameOver) return;
-
-    setState(() {
-      // Update enemy positions
-      for (var enemy in enemies) {
-        if (enemy['alive']) {
-          enemy['y'] += enemySpeed / 60;
-          if (enemy['y'] > 1.1) {
-            enemy['alive'] = false;
-            // Consider ending the game or losing a life if an enemy reaches the bottom
-            // For now, we just remove it.
-          }
-        }
-      }
-
-      // Update bullet position
-      if (isShooting) {
-        playerBulletY -= 0.05; // Move bullet up
-        if (playerBulletY < 0) {
-          isShooting = false;
-          playerBulletY = 1.0;
-        }
-      }
-
-      // Collision detection
-      for (var enemy in enemies) {
-        if (enemy['alive'] && isShooting) {
-          double bulletCenterX = playerX; // Assuming bullet is centered with player
-          double bulletCenterY = playerBulletY;
-          double enemyCenterX = enemy['x'];
-          double enemyCenterY = enemy['y'];
-
-          // Calculate distance between centers
-          double distance = sqrt(pow(bulletCenterX - enemyCenterX, 2) + pow(bulletCenterY - enemyCenterY, 2));
-
-          // Collision if distance is less than sum of half sizes
-          if (distance < (0.05 + 0.05)) { // 0.05 is half of player bullet width/height, 0.05 is half of enemy size
-            enemy['alive'] = false;
-            score++;
-            isShooting = false; // Bullet disappears after hit
-            playerBulletY = 1.0; // Reset bullet position
-            print('Hit! Score: $score');
-            break; // Only one hit per bullet
-          }
-        }
-      }
-
-      // Check if all enemies are gone
-      bool allEnemiesDefeated = enemies.every((enemy) => !enemy['alive']);
-      if (allEnemiesDefeated) {
-        _endGame();
-      }
-    });
+    // More game update logic
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('æé£æºå°æ¸¸æ'),
-        backgroundColor: Colors.pinkAccent,
+        title: const Text('Game Screen'),
       ),
-      backgroundColor: Colors.red, // Set background to red
-      body: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          _movePlayer(details.delta.dx / context.size!.width * 0.5);
-        },
-        onTap: _shoot, // Shoot on tap
-        child: Stack(
-          fit: StackFit.expand,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Enemies
-            ...enemies.where((enemy) => enemy['alive']).map((enemy) {
-              return Positioned(
-                left: enemy['x'] * context.size!.width,
-                top: enemy['y'] * context.size!.height,
-                child: Image.asset(
-                  'assets/enemy_plane.png', // Make sure you have this asset
-                  width: enemySize,
-                  height: enemySize,
-                ),
-              );
-            }).toList(),
-
-            // Player Bullet
-            if (isShooting)
-              Positioned(
-                left: playerX * context.size!.width - 10, // Adjust for bullet width
-                top: playerBulletY * context.size!.height,
-                child: Image.asset(
-                  'assets/bullet.png', // Make sure you have this asset
-                  width: 20,
-                  height: 30,
-                ),
-              ),
-
-            // Player
-            Positioned(
-              left: playerX * context.size!.width - 30, // Adjust for player width
-              top: 0.85 * context.size!.height, // Fixed position at the bottom
-              child: Image.asset(
-                'assets/player_plane.png', // Make sure you have this asset
-                width: 60,
-                height: 60,
-              ),
+            Text('Game Status: ${isGameOver ? "Game Over" : "Playing"}'),
+            ElevatedButton(
+              onPressed: isGameStarted ? _endGame : _startGame,
+              child: Text(isGameStarted ? 'End Game' : 'Start Game'),
             ),
-
-            // Game Over Overlay
             if (isGameOver)
-              Positioned.fill(
-                child: Container(
-                  color: Colors.black.withOpacity(0.7),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Game Over!',
-                        style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.red),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _startGame,
-                        child: const Text('Play Again'),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-
-            // Start Game Button
+              const Text('Game Over!'),
             if (!isGameStarted && !isGameOver)
-              Positioned.fill(
-                child: Center(
-                  child: ElevatedButton(
-                    onPressed: _startGame,
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      textStyle: const TextStyle(fontSize: 20),
-                    ),
-                    child: const Text('Start Game'),
-                  ),
-                ),
-              ),
+              const Text('Press Start to play'),
           ],
         ),
       ),
