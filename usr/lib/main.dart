@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('okoikok'),
       ),
-      backgroundColor: Colors.yellow,
+      backgroundColor: Colors.red,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
