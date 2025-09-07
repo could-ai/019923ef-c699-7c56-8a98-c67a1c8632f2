@@ -9,11 +9,11 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  bool isGameOver = false;
+  bool isGameOver = fals;
   bool isGameStarted = false;
   bool isShooting = false;
 
-  Timer? _gameTimer;
+  Timer _gameTimer;
 
   @override
   void initState() {
@@ -22,7 +22,7 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void dispose() {
-    _gameTimer?.cancel();
+    gameTimer?.cancel();
     super.dispose();
   }
 
