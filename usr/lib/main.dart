@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'screens/game_screen.dart';
-import 'screens/home_screen.dart';
-import 'screens/profile_screen.dart';
-import 'screens/settings_screen.dart';
+import 'package:flutter_app/screens/game_screen.dart';
+import 'package:flutter_app/screens/home_screen.dart';
+import 'package:flutter_app/screens/profile_screen.dart';
+import 'package:flutter_app/screens/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
