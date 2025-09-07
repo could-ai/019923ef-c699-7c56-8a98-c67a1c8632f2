@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialAp(
       title: 'okoikok',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget {
+class MainScreen extend StatefulWidget {
   const MainScreen({super.key});
 
   @override
@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('okoikok'),
       ),
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.yellow,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
