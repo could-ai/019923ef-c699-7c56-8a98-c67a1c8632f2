@@ -5,11 +5,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return cons Center(
-      child: Text(
-        'Home Screen - Swipe Profiles Here!',
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      )
+    return const Center( // Fixed: 'cons' to 'const'
+      child: Text('Home Screen'),
     );
   }
 }
