@@ -55,6 +55,7 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('okoikok'),
       ),
+      backgroundColor: Colors.yellow,
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -71,14 +72,14 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Profile'
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icon.settings),
+            icon: Icon(Icons.settings),
             label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTappe,
+        onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
       ),
     );
