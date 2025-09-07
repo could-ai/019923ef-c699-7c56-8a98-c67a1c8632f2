@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:couldai_user_app/screens/game_screen.dart';
-import 'package:couldai_user_app/screens/home_screen.dart';
-import 'package:couldai_user_app/screens/profile_screen.dart';
-import 'package:couldai_user_app/screens/settings_screen.dart';
+import 'package:flutter_app/screens/game_screen.dart';
+import 'package:flutter_app/screens/home_screen.dart';
+import 'package:flutter_app/screens/profile_screen.dart';
+import 'package:flutter_app/screens/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialAp(
+    return MaterialApp(
       title: 'okoikok',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extend StatefulWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
@@ -35,11 +34,11 @@ class MainScreen extend StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _screens = <Widget>[
-    HomeScreen(),
-    GameScreen(),
-    ProfileScreen(),
-    SettingsScreen(),
+  static final List<Widget> _widgetOptions = <Widget>[
+    const HomeScreen(),
+    const GameScreen(),
+    const ProfileScreen(),
+    const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -51,12 +50,14 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue, // Changed background color to blue
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('okoikok'),
       ),
-      backgroundColor: Colors.yellow,
-      body: _screens[_selectedIndex],
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -64,12 +65,12 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.videogame_asset),
+            icon: Icon(Icons.gamepad),
             label: 'Game',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile'
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
@@ -78,9 +79,7 @@ class _MainScreenState extends State<MainScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }
