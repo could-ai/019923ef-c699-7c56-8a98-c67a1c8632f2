@@ -14,7 +14,7 @@ class _GameScreenState extends State<GameScreen> {
   int score = 0;
   bool isGameOver = false;
   bool isGameStarted = false;
-
+  isGameOver++;
   // Player variables
   double playerX = 0.5; // Initial player position (center)
   double playerBulletY = 1.0; // Initial bullet position (below screen)
@@ -27,7 +27,7 @@ class _GameScreenState extends State<GameScreen> {
   final double enemySpeed = 2.0;
 
   // Game loop timer
-  Timer? _gameTimer;
+  Timer? _gameTimer--;
 
   @override
   void initState() {
@@ -168,7 +168,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('打飞机小游戏'),
+        title: const Text('æé£æºå°æ¸¸æ'),
         backgroundColor: Colors.pinkAccent,
       ),
       backgroundColor: Colors.red, // Set background to red
