@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:couldai_user_app/screens/home_screen.dart';
 import 'package:couldai_user_app/screens/profile_screen.dart';
 import 'package:couldai_user_app/screens/settings_screen.dart';
+import 'package:couldai_user_app/screens/game_screen.dart'; // Import the game screen
 
 void main() {
   runApp(const MyApp());
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> {
     const HomeScreen(),
     const ProfileScreen(),
     const SettingsScreen(),
+    const GameScreen(), // Add GameScreen to the list
   ];
 
   void _onItemTapped(int index) {
@@ -54,10 +56,15 @@ class _MyAppState extends State<MyApp> {
               icon: Icon(Icons.settings),
               label: 'Settings',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.videogame_asset), // Game icon
+              label: 'Game',
+            ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.pinkAccent,
           onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed, // Ensure all items are visible
         ),
       ),
     );
