@@ -6,7 +6,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text(
+      child: const Text(
         'Profile Screen - View and Edit Your Profile',
         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
